@@ -91,6 +91,36 @@
       "generateMipmaps": false
     },{
       "type": "texture",
+      "id": "CLICK",
+      "src": "click.png",
+      "generateMipmaps": false
+    },{
+      "type": "texture",
+      "id": "ENDING_1",
+      "src": "end1.png",
+      "generateMipmaps": false
+    },{
+      "type": "texture",
+      "id": "ENDING_2",
+      "src": "end2.png",
+      "generateMipmaps": false
+    },{
+      "type": "texture",
+      "id": "ENDING_3",
+      "src": "end3.png",
+      "generateMipmaps": false
+    },{
+      "type": "texture",
+      "id": "ENDING_4",
+      "src": "end4.png",
+      "generateMipmaps": false
+    },{
+      "type": "texture",
+      "id": "ENDING_5",
+      "src": "end5.png",
+      "generateMipmaps": false
+    },{
+      "type": "texture",
       "id": "SLIDERTRACK",
       "src": "slidertrack.png",
       "generateMipmaps": false

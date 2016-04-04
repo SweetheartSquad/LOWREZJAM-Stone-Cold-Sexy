@@ -27,7 +27,9 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	screenFBO(new StandardFrameBuffer(true)),
 	confidence(100),
 	score(0),
-	whiteout(0)
+	whiteout(0),
+	ready(false),
+	posing(false)
 {
 	// memory management
 	screenSurface->incrementReferenceCount();
@@ -160,17 +162,19 @@ void MY_Scene_Main::update(Step * _step){
 
 
 
-
-	posing = mouse->leftDown();
-
+	if(ready){
+		posing = mouse->leftDown();
+	}else{
+		ready = mouse->leftJustReleased();
+	}
 	if(posing){
-		confidence -= 0.1f;
+		confidence -= 0.1f + (score/5000);
 		// just started posing
 		if(mouse->leftJustPressed()){
 			poser->background->mesh->replaceTextures(MY_ResourceManager::globalAssets->getTexture("poser-posing_" + std::to_string(sweet::NumberUtils::randomInt(1,3)))->texture);
 		}
 	}else{
-		confidence -= 0.01f;
+		confidence -= 0.01f + (score/5000);
 		// just finished posing
 		if(mouse->leftJustReleased()){
 			poser->background->mesh->replaceTextures(MY_ResourceManager::globalAssets->getTexture("poser")->texture);

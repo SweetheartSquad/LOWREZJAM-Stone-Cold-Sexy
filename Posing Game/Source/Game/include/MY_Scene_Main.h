@@ -28,6 +28,7 @@ public:
 	bool posing;
 	float score;
 	float whiteout;
+	bool ready;
 
 	virtual void update(Step * _step) override;
 	virtual void render(sweet::MatrixStack * _matrixStack, RenderOptions * _renderOptions) override;

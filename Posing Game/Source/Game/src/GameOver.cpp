@@ -14,13 +14,13 @@ GameOver::GameOver(Game * _game, float _score) :
 
 	if(_score > 500){
 		pic += "5";
-	}else if(_score > 500){
+	}else if(_score > 250){
 		pic += "4";
-	}else if(_score > 500){
+	}else if(_score > 100){
 		pic += "3";
-	}else if(_score > 500){
+	}else if(_score > 50){
 		pic += "2";
-	}else if(_score > 500){
+	}else{
 		pic += "1";
 	}
 
@@ -42,6 +42,12 @@ GameOver::GameOver(Game * _game, float _score) :
 
 	Timeout * doneTimeout = new Timeout(0.5f, [this](sweet::Event * _event){
 		done = true;
+		NodeUI * n = new NodeUI(uiLayer->world);
+		n->setRationalHeight(1.f, uiLayer);
+		n->setRationalWidth(1.f, uiLayer);
+		uiLayer->addChild(n);
+		n->background->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("CLICK")->texture);
+		n->background->mesh->setScaleMode(GL_NEAREST);
 	});
 	doneTimeout->start();
 	childTransform->addChild(doneTimeout, false);
