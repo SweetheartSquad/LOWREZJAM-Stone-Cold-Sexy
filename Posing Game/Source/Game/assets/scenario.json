@@ -13,12 +13,33 @@
       "id": "CLOUDS",
       "src": "clouds.png",
       "generateMipmaps": false
-    },{
+    }
+
+
+    ,{
       "type": "texture",
       "id": "bg",
       "src": "bg.png",
       "generateMipmaps": false
     },{
+      "type": "texture",
+      "id": "cloud_1",
+      "src": "cloud_1.png",
+      "generateMipmaps": false
+    },{
+      "type": "texture",
+      "id": "cloud_2",
+      "src": "cloud_2.png",
+      "generateMipmaps": false
+    },{
+      "type": "texture",
+      "id": "cloud_3",
+      "src": "cloud_3.png",
+      "generateMipmaps": false
+    }
+
+
+    ,{
       "type": "texture",
       "id": "peep",
       "src": "joebob.png",

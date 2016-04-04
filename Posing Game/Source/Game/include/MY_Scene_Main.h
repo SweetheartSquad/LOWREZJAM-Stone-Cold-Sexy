@@ -22,6 +22,8 @@ public:
 	NodeUI * bg;
 	std::vector<Peep * > peeps;
 
+	std::vector<MeshInterface *> clouds;
+
 	float confidence;
 	bool posing;
 	float score;

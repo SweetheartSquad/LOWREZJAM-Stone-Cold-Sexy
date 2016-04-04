@@ -61,6 +61,16 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	//fg->background->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("fg")->texture);
 	fg->background->setVisible(false);
 
+	for(unsigned long int i = 1; i <= 3; ++i){
+		NodeUI * cloud = new NodeUI(uiLayer->world);
+		bg->addChild(cloud);
+		cloud->setRationalHeight(1.f, bg);
+		cloud->setRationalWidth(1.f, bg);
+		cloud->background->mesh->setScaleMode(GL_NEAREST);
+		cloud->background->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("cloud_" + std::to_string(i))->texture);
+
+		clouds.push_back(cloud->background->mesh);
+	}
 
 	// ui
 	SliderControlled * confidenceSlider = new SliderControlled(uiLayer->world, &confidence, 0, 100);
@@ -113,6 +123,18 @@ void MY_Scene_Main::update(Step * _step){
 	if(test != -1){
 		glUniform1f(test, _step->time);
 		checkForGlError(0);
+	}
+
+
+	
+	for(unsigned long int i = 0; i < clouds.size(); ++i){
+		if(_step->cycles % (30+i*5) == 0){
+			MeshInterface * c = clouds.at(i);
+			for(auto & v : c->vertices){
+				v.u += 1/64.f;
+			}
+			c->dirty = true;
+		}
 	}
 
 	if(MY_Game::resized){
