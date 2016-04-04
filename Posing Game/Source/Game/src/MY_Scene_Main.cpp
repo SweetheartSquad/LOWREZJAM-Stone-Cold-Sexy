@@ -53,7 +53,7 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	uiLayer->addChild(poser,false);
 	uiLayer->addChild(fg,false);
 	
-	bg->background->mesh->setScaleMode(GL_NEAREST);
+	bg->background->setVisible(false);
 	poser->background->mesh->setScaleMode(GL_NEAREST);
 	//fg->background->mesh->setScaleMode(GL_NEAREST);
 	
@@ -71,6 +71,13 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 		cloud->background->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("cloud_" + std::to_string(i))->texture);
 
 		clouds.push_back(cloud->background->mesh);
+	}{
+		NodeUI * bg = new NodeUI(uiLayer->world);
+		this->bg->addChild(bg);
+		bg->setRationalHeight(1.f, this->bg);
+		bg->setRationalWidth(1.f, this->bg);
+		bg->background->mesh->setScaleMode(GL_NEAREST);
+		bg->background->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("bg")->texture);
 	}
 
 	// ui
