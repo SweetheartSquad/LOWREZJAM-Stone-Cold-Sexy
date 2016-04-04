@@ -7,7 +7,7 @@ class Timeout;
 class Peep : public NodeUI{
 public:
 
-	Timeout * walkTimeout, * picTexTimeout, * picTimeout, * speedTimeout, * scoreTimeout;
+	Timeout * walkTimeout, * picTexTimeout, * picTimeout1, * picTimeout2, * speedTimeout, * scoreTimeout;
 
 	NodeUI * plusOne;
 

@@ -51,6 +51,14 @@
       "generateMipmaps": false
     },{
       "type": "texture",
+      "id": "peep-ready",
+      "src": "joebobTell.png",
+      "generateMipmaps": false
+    }
+
+
+    ,{
+      "type": "texture",
       "id": "poser",
       "src": "gargoyle_Idle.png",
       "generateMipmaps": false

@@ -21,16 +21,25 @@ Peep::Peep(BulletWorld * _world) :
 	});
 	childTransform->addChild(picTexTimeout, false);
 
-	picTimeout = new Timeout(sweet::NumberUtils::randomFloat(3.5f, 10.f), [this](sweet::Event * _event){
+	picTimeout1 = new Timeout(sweet::NumberUtils::randomFloat(3.5f, 10.f), [this](sweet::Event * _event){
+		if(marginLeft.rationalSize > -0.5 && marginLeft.rationalSize < 0.5f){
+			background->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("peep-ready")->texture);
+		}
+		picTimeout2->restart();
+	});
+	picTimeout1->start();
+	childTransform->addChild(picTimeout1, false);
+
+	picTimeout2 = new Timeout(0.3f, [this](sweet::Event * _event){
 		if(marginLeft.rationalSize > -0.5 && marginLeft.rationalSize < 0.5f){
 			background->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("peep-flash")->texture);
 			wantsTakePicture = true;
 		}
-		picTimeout->restart();
+		picTimeout1->restart();
 		picTexTimeout->restart();
 	});
-	picTimeout->start();
-	childTransform->addChild(picTimeout, false);
+	picTimeout2->start();
+	childTransform->addChild(picTimeout2, false);
 
 	walkTimeout = new Timeout(sweet::NumberUtils::randomFloat(0.1, 0.25f), [this](sweet::Event * _event){
 		walkTimeout->restart();
