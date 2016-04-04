@@ -1,18 +1,33 @@
 {
   "assets": [
     {
-  		"type": "texture",
-  		"id": "CLOUDS",
-  		"src": "clouds.png",
-  		"generateMipmaps": false
-  	}
+      "type": "texture",
+      "id": "CLOUDS",
+      "src": "clouds.png",
+      "generateMipmaps": false
+    },{
+      "type": "texture",
+      "id": "bg",
+      "src": "bg.png",
+      "generateMipmaps": false
+    },{
+      "type": "texture",
+      "id": "peep",
+      "src": "joebob.png",
+      "generateMipmaps": false
+    },{
+      "type": "texture",
+      "id": "peep-flash",
+      "src": "joebobFlash.png",
+      "generateMipmaps": false
+    }
 
     ,{
-  		"type": "texture",
-  		"id": "MENU",
-  		"src": "menu.png",
-  		"generateMipmaps": false
-  	}
+      "type": "texture",
+      "id": "MENU",
+      "src": "menu.png",
+      "generateMipmaps": false
+    }
 
   	,{
   		"type":"audio",

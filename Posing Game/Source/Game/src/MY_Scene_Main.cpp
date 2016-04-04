@@ -14,11 +14,15 @@
 #include <shader\ShaderComponentUvOffset.h>
 #include <shader\ShaderComponentHsv.h>
 
+
+#include <sweet\UI.h>
+
 MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	MY_Scene_Base(_game),
 	screenSurfaceShader(new Shader("assets/RenderSurface_1", false, true)),
 	screenSurface(new RenderSurface(screenSurfaceShader, true)),
-	screenFBO(new StandardFrameBuffer(true))
+	screenFBO(new StandardFrameBuffer(true)),
+	confidence(100)
 {
 	// memory management
 	screenSurface->incrementReferenceCount();
@@ -26,6 +30,44 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	screenFBO->incrementReferenceCount();
 
 	screenSurface->setScaleMode(GL_NEAREST);
+
+	// game
+	bg = new NodeUI(uiLayer->world);
+	poser = new NodeUI(uiLayer->world);
+	fg = new NodeUI(uiLayer->world);
+	
+	bg->setRationalHeight(1.f, uiLayer);
+	poser->setRationalHeight(1.f, uiLayer);
+	fg->setRationalHeight(1.f, uiLayer);
+	
+	bg->setRationalWidth(1.f, uiLayer);
+	poser->setRationalWidth(1.f, uiLayer);
+	fg->setRationalWidth(1.f, uiLayer);
+	
+	uiLayer->addChild(bg,false);
+	//uiLayer->addChild(gargoyle,false);
+	uiLayer->addChild(fg,false);
+	
+	bg->background->mesh->setScaleMode(GL_NEAREST);
+	poser->background->mesh->setScaleMode(GL_NEAREST);
+	//fg->background->mesh->setScaleMode(GL_NEAREST);
+	
+	bg->background->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("bg")->texture);
+	poser->background->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("poser")->texture);
+	//fg->background->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("fg")->texture);
+	fg->background->setVisible(false);
+
+
+	// ui
+	SliderControlled * confidenceSlider = new SliderControlled(uiLayer->world, &confidence, 0, 100);
+	uiLayer->addChild(confidenceSlider, false);
+	confidenceSlider->setRationalHeight(2/64.f, uiLayer);
+	confidenceSlider->setRationalWidth(60/64.f, uiLayer);
+	confidenceSlider->setMargin(2/64.f);
+	confidenceSlider->boxSizing = kCONTENT_BOX;
+	confidenceSlider->thumb->setVisible(false);
+	
+	uiLayer->invalidateLayout();
 }
 
 MY_Scene_Main::~MY_Scene_Main(){
@@ -37,6 +79,7 @@ MY_Scene_Main::~MY_Scene_Main(){
 
 
 void MY_Scene_Main::update(Step * _step){
+	uiLayer->resize(0, 64, 0, 64);
 	// Screen shader update
 	// Screen shaders are typically loaded from a file instead of built using components, so to update their uniforms
 	// we need to use the OpenGL API calls
@@ -47,6 +90,46 @@ void MY_Scene_Main::update(Step * _step){
 		glUniform1f(test, _step->time);
 		checkForGlError(0);
 	}
+
+
+
+
+
+
+	posing = mouse->leftDown();
+
+	if(posing){
+		confidence -= 0.1f;
+		// just started posing
+		if(mouse->leftJustPressed()){
+			poser->background->mesh->replaceTextures(MY_ResourceManager::globalAssets->getTexture("poser-posing")->texture);
+		}
+	}else{
+		// just finished posing
+		if(mouse->leftJustReleased()){
+			poser->background->mesh->replaceTextures(MY_ResourceManager::globalAssets->getTexture("poser")->texture);
+		}
+	}
+
+	// update peeps
+	if(keyboard->keyJustDown(GLFW_KEY_P)){
+		addPeep();
+	}
+	
+	bg->autoResize();
+	for(auto p : peeps){
+		p->marginLeft.rationalSize += 1/64.f;
+		p->autoResize();
+	}
+
+
+	// lose state
+	if(confidence <= FLT_EPSILON){
+		game->switchScene("gameover", true);
+	}
+
+
+
 
 
 	// Scene update
@@ -76,9 +159,6 @@ void MY_Scene_Main::render(sweet::MatrixStack * _matrixStack, RenderOptions * _r
 	// render our screen framebuffer using the standard render surface
 	_renderOptions->setViewPort(horz ? offset : 0, horz ? 0 : offset, min, min);
 	screenSurface->render(screenFBO->getTextureId());
-
-	// render the uiLayer after the screen surface in order to avoid hiding it through shader code
-	uiLayer->render(_matrixStack, _renderOptions);
 }
 
 void MY_Scene_Main::load(){
@@ -93,4 +173,24 @@ void MY_Scene_Main::unload(){
 	screenSurface->unload();
 
 	MY_Scene_Base::unload();	
+}
+
+
+
+
+
+void MY_Scene_Main::addPeep(){
+	NodeUI * peep = new NodeUI(uiLayer->world);
+	fg->addChild(peep);
+	peep->setRationalHeight(64/64.f, uiLayer);
+	peep->setRationalWidth(64/64.f, uiLayer);
+	peep->boxSizing = kCONTENT_BOX;
+
+	peep->background->mesh->setScaleMode(GL_NEAREST);
+	peep->background->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("peep")->texture);
+	
+	peep->marginLeft.setRationalSize(-64/64.f, &fg->width);
+	peep->marginBottom.setRationalSize(0/64.f, &fg->height);
+
+	peeps.push_back(peep);
 }
