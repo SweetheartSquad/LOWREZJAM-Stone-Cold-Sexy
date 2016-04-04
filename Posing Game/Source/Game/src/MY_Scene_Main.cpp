@@ -114,6 +114,7 @@ void MY_Scene_Main::update(Step * _step){
 			poser->background->mesh->replaceTextures(MY_ResourceManager::globalAssets->getTexture("poser-posing")->texture);
 		}
 	}else{
+		confidence -= 0.01f;
 		// just finished posing
 		if(mouse->leftJustReleased()){
 			poser->background->mesh->replaceTextures(MY_ResourceManager::globalAssets->getTexture("poser")->texture);
@@ -133,8 +134,13 @@ void MY_Scene_Main::update(Step * _step){
 			p->walk = false;
 		}
 
-		if(p->takePicture){
-			p->takePicture = false;
+		// take picture
+		if(p->wantsTakePicture){
+			p->takePicture();
+			if(posing){
+				confidence += 10;
+				p->scoreTimeout->restart();
+			}
 		}
 
 

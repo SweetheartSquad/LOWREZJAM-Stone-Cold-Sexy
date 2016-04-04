@@ -7,7 +7,9 @@
 #include <NumberUtils.h>
 
 Peep::Peep(BulletWorld * _world) :
-	NodeUI(_world)
+	NodeUI(_world),
+	wantsTakePicture(false),
+	walk(true)
 {
 	boxSizing = kCONTENT_BOX;
 
@@ -22,7 +24,7 @@ Peep::Peep(BulletWorld * _world) :
 	picTimeout = new Timeout(sweet::NumberUtils::randomFloat(1.f, 3.5f), [this](sweet::Event * _event){
 		if(marginLeft.rationalSize > 0 && marginLeft.rationalSize < 1.f){
 			background->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("peep-flash")->texture);
-			takePicture = true;
+			wantsTakePicture = true;
 		}
 		picTimeout->restart();
 		picTexTimeout->restart();
@@ -43,8 +45,38 @@ Peep::Peep(BulletWorld * _world) :
 	});
 	walkTimeout->start();
 	childTransform->addChild(walkTimeout, false);
+
+
+	// score
+	plusOne = new NodeUI(world);
+	addChild(plusOne);
+	plusOne->setRationalWidth(1.f, this);
+	plusOne->setRationalHeight(1.f, this);
+	plusOne->marginBottom.setRationalSize(0.f, &this->height);
+	plusOne->setVisible(false);
+	plusOne->boxSizing = kCONTENT_BOX;
+	plusOne->background->mesh->setScaleMode(GL_NEAREST);
+	plusOne->background->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("plusOne")->texture);
+
+	scoreTimeout = new Timeout(0.75f, [this](sweet::Event * _event){
+		plusOne->setVisible(false);
+	});
+	scoreTimeout->eventManager->addEventListener("progress", [this](sweet::Event * _event){
+		plusOne->marginBottom.rationalSize += 0.1f/64.f;
+		plusOne->autoResize();
+		plusOne->setBackgroundColour(1,1,1, 1.f - _event->getFloatData("progress"));
+	});
+	scoreTimeout->eventManager->addEventListener("start", [this](sweet::Event * _event){
+		plusOne->marginBottom.rationalSize = 0;
+		plusOne->setVisible(true);
+	});
+	childTransform->addChild(scoreTimeout, false);
 }
 
 void Peep::update(Step * _step){
 	NodeUI::update(_step);
+}
+
+void Peep::takePicture(){
+	wantsTakePicture = false;
 }
