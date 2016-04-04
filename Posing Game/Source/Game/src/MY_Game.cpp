@@ -6,6 +6,7 @@
 
 #include <MY_Scene_Menu.h>
 
+bool MY_Game::resized = false;
 
 MY_Game::MY_Game() :
 	Game("menu", new MY_Scene_Menu(this), true) // initialize our game with a menu scene
@@ -38,6 +39,8 @@ void MY_Game::update(Step * _step){
 	if(sd.x != sd.y){
 		int s = glm::min(sd.x, sd.y);
 		glfwSetWindowSize(sweet::currentContext, s, s);
+		resized = true;
 	}
 	Game::update(_step);
+	resized = false;
 }

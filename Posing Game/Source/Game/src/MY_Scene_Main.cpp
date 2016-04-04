@@ -113,10 +113,12 @@ void MY_Scene_Main::update(Step * _step){
 		checkForGlError(0);
 	}
 
-	MY_ResourceManager::globalAssets->getFont("font")->font->resize(25);
-	scoreLabel->invalidate();
-	scoreLabel->updateText();
-	scoreLabel->invalidateLayout();
+	if(MY_Game::resized){
+		MY_ResourceManager::globalAssets->getFont("font")->font->resize(25);
+		scoreLabel->invalidate();
+		scoreLabel->updateText();
+		scoreLabel->invalidateLayout();
+	}
 	//scoreLabel->setFont(MY_ResourceManager::globalAssets->getFont("font")->font, true);
 
 

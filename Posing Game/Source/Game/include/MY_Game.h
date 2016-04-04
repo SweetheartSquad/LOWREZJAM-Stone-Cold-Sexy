@@ -4,6 +4,8 @@
 
 class MY_Game : public Game{
 public:
+	static bool resized;
+
 	MY_Game();
 	~MY_Game();
 
