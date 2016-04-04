@@ -56,7 +56,7 @@ Peep::Peep(BulletWorld * _world) :
 	plusOne->setVisible(false);
 	plusOne->boxSizing = kCONTENT_BOX;
 	plusOne->background->mesh->setScaleMode(GL_NEAREST);
-	plusOne->background->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("plusOne")->texture);
+	plusOne->background->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("plus")->texture);
 
 	scoreTimeout = new Timeout(0.75f, [this](sweet::Event * _event){
 		plusOne->setVisible(false);

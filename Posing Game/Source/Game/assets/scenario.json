@@ -27,8 +27,18 @@
       "generateMipmaps": false
     },{
       "type": "texture",
-      "id": "poser-posing",
+      "id": "poser-posing_1",
       "src": "gargoyle_Pose.png",
+      "generateMipmaps": false
+    },{
+      "type": "texture",
+      "id": "poser-posing_2",
+      "src": "gargoyle_Pose2.png",
+      "generateMipmaps": false
+    },{
+      "type": "texture",
+      "id": "plus",
+      "src": "plus.png",
       "generateMipmaps": false
     }
 
