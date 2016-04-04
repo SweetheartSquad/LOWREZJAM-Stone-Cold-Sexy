@@ -13,7 +13,8 @@ public:
 	Shader * screenSurfaceShader;
 	RenderSurface * screenSurface;
 	StandardFrameBuffer * screenFBO;
-	
+	Timeout * peepTimeout;
+
 	NodeUI * poser;
 	NodeUI * fg;
 	NodeUI * bg;

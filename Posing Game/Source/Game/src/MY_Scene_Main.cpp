@@ -5,8 +5,6 @@
 #include <StandardFrameBuffer.h>
 #include <RenderOptions.h>
 
-#include <MeshFactory.h>
-#include <DirectionalLight.h>
 
 #include <shader\ShaderComponentTexture.h>
 #include <shader\ShaderComponentDiffuse.h>
@@ -18,6 +16,7 @@
 
 
 #include <sweet\UI.h>
+#include <NumberUtils.h>
 
 MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	MY_Scene_Base(_game),
@@ -70,6 +69,14 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	confidenceSlider->thumb->setVisible(false);
 	
 	uiLayer->invalidateLayout();
+
+
+	peepTimeout = new Timeout(5.f, [this](sweet::Event * _event){
+		peepTimeout->restart();
+		addPeep();
+	});
+	peepTimeout->start();
+	childTransform->addChild(peepTimeout, false);
 }
 
 MY_Scene_Main::~MY_Scene_Main(){
@@ -118,7 +125,8 @@ void MY_Scene_Main::update(Step * _step){
 		addPeep();
 	}
 	
-	for(auto p : peeps){
+	for(signed long int i = peeps.size()-1; i >= 0; --i){
+		Peep * p = peeps.at(i);
 		if(p->walk){
 			p->marginLeft.rationalSize += 1/64.f;
 			p->autoResize();
@@ -127,6 +135,14 @@ void MY_Scene_Main::update(Step * _step){
 
 		if(p->takePicture){
 			p->takePicture = false;
+		}
+
+
+		// remove peeps off screen
+		if(p->marginLeft.rationalSize >= 1.f){
+			fg->removeChild(p);
+			delete p;
+			peeps.erase(peeps.begin() + i);
 		}
 	}
 
@@ -194,7 +210,7 @@ void MY_Scene_Main::addPeep(){
 	peep->setRationalWidth(64/64.f, uiLayer);
 	
 	peep->marginLeft.setRationalSize(-64/64.f, &fg->width);
-	peep->marginBottom.setRationalSize(0/64.f, &fg->height);
+	peep->marginBottom.setRationalSize(sweet::NumberUtils::randomInt(-12, 0)/64.f, &fg->height);
 
 	peeps.push_back(peep);
 }
