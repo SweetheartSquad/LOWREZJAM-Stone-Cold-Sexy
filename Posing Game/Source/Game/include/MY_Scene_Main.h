@@ -7,6 +7,7 @@ class StandardFrameBuffer;
 class ShaderComponentUvOffset;
 class ShaderComponentHsv;
 class Peep;
+class TextLabelControlled;
 
 class MY_Scene_Main : public MY_Scene_Base{
 public:
@@ -15,6 +16,7 @@ public:
 	StandardFrameBuffer * screenFBO;
 	Timeout * peepTimeout;
 
+	TextLabelControlled * scoreLabel;
 	NodeUI * poser;
 	NodeUI * fg;
 	NodeUI * bg;
@@ -22,6 +24,7 @@ public:
 
 	float confidence;
 	bool posing;
+	float score;
 
 	virtual void update(Step * _step) override;
 	virtual void render(sweet::MatrixStack * _matrixStack, RenderOptions * _renderOptions) override;

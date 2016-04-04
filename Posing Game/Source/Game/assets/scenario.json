@@ -1,6 +1,14 @@
 {
   "assets": [
     {
+      "type": "font",
+      "id": "font",
+      "src": "PixelPlain.ttf",
+      "size": "25%",
+      "antiAliasing": false
+    },
+
+    {
       "type": "texture",
       "id": "CLOUDS",
       "src": "clouds.png",
@@ -46,6 +54,16 @@
       "type": "texture",
       "id": "MENU",
       "src": "menu.png",
+      "generateMipmaps": false
+    },{
+      "type": "texture",
+      "id": "SLIDERTRACK",
+      "src": "slidertrack.png",
+      "generateMipmaps": false
+    },{
+      "type": "texture",
+      "id": "SLIDER",
+      "src": "slider.png",
       "generateMipmaps": false
     }
 

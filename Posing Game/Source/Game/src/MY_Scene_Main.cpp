@@ -23,7 +23,8 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	screenSurfaceShader(new Shader("assets/RenderSurface_1", false, true)),
 	screenSurface(new RenderSurface(screenSurfaceShader, true)),
 	screenFBO(new StandardFrameBuffer(true)),
-	confidence(100)
+	confidence(100),
+	score(0)
 {
 	// memory management
 	screenSurface->incrementReferenceCount();
@@ -67,6 +68,10 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	confidenceSlider->setMargin(2/64.f);
 	confidenceSlider->boxSizing = kCONTENT_BOX;
 	confidenceSlider->thumb->setVisible(false);
+	confidenceSlider->fill->background->mesh->setScaleMode(GL_NEAREST);
+	confidenceSlider->background->mesh->setScaleMode(GL_NEAREST);
+	confidenceSlider->fill->background->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("SLIDER")->texture);
+	confidenceSlider->background->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("SLIDERTRACK")->texture);
 	
 	uiLayer->invalidateLayout();
 
@@ -77,6 +82,14 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	});
 	peepTimeout->start();
 	childTransform->addChild(peepTimeout, false);
+
+	scoreLabel = new TextLabelControlled(&score, 0.f, FLT_MAX, uiLayer->world, MY_ResourceManager::globalAssets->getFont("font")->font, textShader);
+	uiLayer->addChild(scoreLabel);
+	scoreLabel->setMarginLeft(2/64.f);
+	scoreLabel->setMarginBottom(8/64.f);
+	scoreLabel->boxSizing = kCONTENT_BOX;
+	scoreLabel->setRationalHeight(1.f, uiLayer);
+	scoreLabel->setRationalWidth(1.f, uiLayer);
 }
 
 MY_Scene_Main::~MY_Scene_Main(){
@@ -100,7 +113,11 @@ void MY_Scene_Main::update(Step * _step){
 		checkForGlError(0);
 	}
 
-
+	MY_ResourceManager::globalAssets->getFont("font")->font->resize(25);
+	scoreLabel->invalidate();
+	scoreLabel->updateText();
+	scoreLabel->invalidateLayout();
+	//scoreLabel->setFont(MY_ResourceManager::globalAssets->getFont("font")->font, true);
 
 
 
@@ -139,6 +156,7 @@ void MY_Scene_Main::update(Step * _step){
 			p->takePicture();
 			if(posing){
 				confidence += 10;
+				score += 10;
 				p->scoreTimeout->restart();
 			}
 		}
