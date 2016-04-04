@@ -26,7 +26,8 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	screenSurface(new RenderSurface(screenSurfaceShader, true)),
 	screenFBO(new StandardFrameBuffer(true)),
 	confidence(100),
-	score(0)
+	score(0),
+	whiteout(0)
 {
 	// memory management
 	screenSurface->incrementReferenceCount();
@@ -123,6 +124,11 @@ void MY_Scene_Main::update(Step * _step){
 	if(test != -1){
 		glUniform1f(test, _step->time);
 		checkForGlError(0);
+	}test = glGetUniformLocation(screenSurfaceShader->getProgramId(), "whiteout");
+	checkForGlError(0);
+	if(test != -1){
+		glUniform1f(test, whiteout);
+		checkForGlError(0);
 	}
 
 
@@ -180,6 +186,7 @@ void MY_Scene_Main::update(Step * _step){
 		// take picture
 		if(p->wantsTakePicture){
 			p->takePicture();
+			whiteout = 1.f;
 			if(posing){
 				confidence += 10;
 				score += 10;
@@ -196,6 +203,7 @@ void MY_Scene_Main::update(Step * _step){
 		}
 	}
 
+	whiteout += -whiteout*0.5f;
 
 	// lose state
 	if(confidence <= FLT_EPSILON){
