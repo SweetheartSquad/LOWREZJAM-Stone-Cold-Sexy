@@ -1,0 +1,26 @@
+{
+  "assets": [
+    {
+  		"type": "texture",
+  		"id": "CLOUDS",
+  		"src": "clouds.png",
+  		"generateMipmaps": false
+  	}
+
+    ,{
+  		"type": "texture",
+  		"id": "MENU",
+  		"src": "menu.png",
+  		"generateMipmaps": false
+  	}
+
+  	,{
+  		"type":"audio",
+  		"id": "BGM",
+  		"src":"wee-oo-ee-oo.ogg",
+  		"stream":true,
+  		"positional":false,
+  		"category":"music"
+  	}
+  ]
+}
