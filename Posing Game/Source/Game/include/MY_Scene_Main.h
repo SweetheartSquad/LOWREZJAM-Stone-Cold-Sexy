@@ -6,6 +6,7 @@ class RenderSurface;
 class StandardFrameBuffer;
 class ShaderComponentUvOffset;
 class ShaderComponentHsv;
+class Peep;
 
 class MY_Scene_Main : public MY_Scene_Base{
 public:
@@ -16,7 +17,7 @@ public:
 	NodeUI * poser;
 	NodeUI * fg;
 	NodeUI * bg;
-	std::vector<NodeUI * > peeps;
+	std::vector<Peep * > peeps;
 
 	float confidence;
 	bool posing;

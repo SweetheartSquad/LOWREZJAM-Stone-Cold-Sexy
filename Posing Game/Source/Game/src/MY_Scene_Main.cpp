@@ -14,6 +14,8 @@
 #include <shader\ShaderComponentUvOffset.h>
 #include <shader\ShaderComponentHsv.h>
 
+#include <Peep.h>
+
 
 #include <sweet\UI.h>
 
@@ -116,10 +118,16 @@ void MY_Scene_Main::update(Step * _step){
 		addPeep();
 	}
 	
-	bg->autoResize();
 	for(auto p : peeps){
-		p->marginLeft.rationalSize += 1/64.f;
-		p->autoResize();
+		if(p->walk){
+			p->marginLeft.rationalSize += 1/64.f;
+			p->autoResize();
+			p->walk = false;
+		}
+
+		if(p->takePicture){
+			p->takePicture = false;
+		}
 	}
 
 
@@ -180,14 +188,10 @@ void MY_Scene_Main::unload(){
 
 
 void MY_Scene_Main::addPeep(){
-	NodeUI * peep = new NodeUI(uiLayer->world);
+	Peep * peep = new Peep(uiLayer->world);
 	fg->addChild(peep);
 	peep->setRationalHeight(64/64.f, uiLayer);
 	peep->setRationalWidth(64/64.f, uiLayer);
-	peep->boxSizing = kCONTENT_BOX;
-
-	peep->background->mesh->setScaleMode(GL_NEAREST);
-	peep->background->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("peep")->texture);
 	
 	peep->marginLeft.setRationalSize(-64/64.f, &fg->width);
 	peep->marginBottom.setRationalSize(0/64.f, &fg->height);
