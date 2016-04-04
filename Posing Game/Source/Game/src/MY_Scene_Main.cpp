@@ -81,18 +81,18 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	}
 
 	// ui
-	SliderControlled * confidenceSlider = new SliderControlled(uiLayer->world, &confidence, 0, 100);
+	SliderControlled * confidenceSlider = new SliderControlled(uiLayer->world, &confidence, 0, 100, false);
 	uiLayer->addChild(confidenceSlider, false);
-	confidenceSlider->setRationalHeight(2/64.f, uiLayer);
-	confidenceSlider->setRationalWidth(60/64.f, uiLayer);
+	confidenceSlider->setRationalHeight(60/64.f, uiLayer);
+	confidenceSlider->setRationalWidth(2/64.f, uiLayer);
 	confidenceSlider->setMargin(2/64.f);
 	confidenceSlider->boxSizing = kCONTENT_BOX;
 	confidenceSlider->thumb->setVisible(false);
 	confidenceSlider->fill->background->mesh->setScaleMode(GL_NEAREST);
 	confidenceSlider->background->mesh->setScaleMode(GL_NEAREST);
-	confidenceSlider->fill->background->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("SLIDER")->texture);
-	confidenceSlider->background->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("SLIDERTRACK")->texture);
-	
+	confidenceSlider->fill->setBackgroundColour(160/255.f * 1.25f, 72/255.f * 1.25f, 92/255.f * 1.25f);
+	confidenceSlider->setBackgroundColour(160/255.f * 0.75f, 72/255.f * 0.75f, 92/255.f * 0.75f);
+
 	uiLayer->invalidateLayout();
 
 
@@ -105,8 +105,8 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 
 	scoreLabel = new TextLabelControlled(&score, 0.f, FLT_MAX, uiLayer->world, MY_ResourceManager::globalAssets->getFont("font")->font, textShader);
 	uiLayer->addChild(scoreLabel);
-	scoreLabel->setMarginLeft(2/64.f);
-	scoreLabel->setMarginBottom(8/64.f);
+	scoreLabel->setMarginLeft(5/64.f);
+	scoreLabel->setMarginBottom(52/64.f);
 	scoreLabel->boxSizing = kCONTENT_BOX;
 	scoreLabel->setRationalHeight(1.f, uiLayer);
 	scoreLabel->setRationalWidth(1.f, uiLayer);
@@ -151,7 +151,7 @@ void MY_Scene_Main::update(Step * _step){
 	}
 
 	if(MY_Game::resized){
-		MY_ResourceManager::globalAssets->getFont("font")->font->resize(25);
+		MY_ResourceManager::globalAssets->getFont("font")->font->resize(18);
 		scoreLabel->invalidate();
 		scoreLabel->updateText();
 		scoreLabel->invalidateLayout();
