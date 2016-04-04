@@ -30,7 +30,7 @@ Peep::Peep(BulletWorld * _world) :
 	picTimeout1->start();
 	childTransform->addChild(picTimeout1, false);
 
-	picTimeout2 = new Timeout(0.3f, [this](sweet::Event * _event){
+	picTimeout2 = new Timeout(0.45f, [this](sweet::Event * _event){
 		if(marginLeft.rationalSize > -0.5 && marginLeft.rationalSize < 0.5f){
 			background->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("peep-flash")->texture);
 			wantsTakePicture = true;
