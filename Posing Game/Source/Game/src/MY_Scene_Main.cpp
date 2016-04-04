@@ -17,6 +17,8 @@
 
 #include <sweet\UI.h>
 #include <NumberUtils.h>
+#include <MY_Game.h>
+#include <GameOver.h>
 
 MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	MY_Scene_Base(_game),
@@ -175,6 +177,7 @@ void MY_Scene_Main::update(Step * _step){
 
 	// lose state
 	if(confidence <= FLT_EPSILON){
+		game->scenes["gameover"] = new GameOver(game, score);
 		game->switchScene("gameover", true);
 	}
 

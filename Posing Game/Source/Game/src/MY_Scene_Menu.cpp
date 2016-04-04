@@ -6,7 +6,8 @@
 #include <sweet/UI.h>
 
 MY_Scene_Menu::MY_Scene_Menu(Game * _game) :
-	MY_Scene_Base(_game)
+	MY_Scene_Base(_game),
+	ready(false)
 {
 	{
 	VerticalLinearLayout * vl = new VerticalLinearLayout(uiLayer->world);
@@ -37,14 +38,22 @@ MY_Scene_Menu::MY_Scene_Menu(Game * _game) :
 	menu->background->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("MENU")->texture);
 	menu->background->mesh->setScaleMode(GL_NEAREST);
 	}
+
+	readyTimeout = new Timeout(0.5f, [this](sweet::Event * _event){
+		ready = true;
+	});
+	childTransform->addChild(readyTimeout, false);
+	readyTimeout->start();
 }
 
 void MY_Scene_Menu::update(Step * _step){
-	if(mouse->leftJustReleased()){
-		if(game->scenes.count("main") == 0){
-			game->scenes["main"] = new MY_Scene_Main(game);
+	if(ready){
+		if(mouse->leftJustPressed()){
+			if(game->scenes.count("main") == 0){
+				game->scenes["main"] = new MY_Scene_Main(game);
+			}
+			game->switchScene("main", false);
 		}
-		game->switchScene("main", false);
 	}
 
 	if(_step->cycles % 30 == 0){
