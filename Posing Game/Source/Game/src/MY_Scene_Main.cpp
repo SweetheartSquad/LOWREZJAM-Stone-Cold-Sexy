@@ -46,7 +46,7 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	fg->setRationalWidth(1.f, uiLayer);
 	
 	uiLayer->addChild(bg,false);
-	//uiLayer->addChild(gargoyle,false);
+	uiLayer->addChild(poser,false);
 	uiLayer->addChild(fg,false);
 	
 	bg->background->mesh->setScaleMode(GL_NEAREST);

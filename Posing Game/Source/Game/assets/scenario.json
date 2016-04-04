@@ -20,6 +20,16 @@
       "id": "peep-flash",
       "src": "joebobFlash.png",
       "generateMipmaps": false
+    },{
+      "type": "texture",
+      "id": "poser",
+      "src": "gargoyle_Idle.png",
+      "generateMipmaps": false
+    },{
+      "type": "texture",
+      "id": "poser-posing",
+      "src": "gargoyle_Pose.png",
+      "generateMipmaps": false
     }
 
     ,{
