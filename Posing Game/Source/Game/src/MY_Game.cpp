@@ -36,10 +36,14 @@ void MY_Game::update(Step * _step){
 	}
 
 	glm::uvec2 sd = sweet::getWindowDimensions();
+	int s = glm::min(sd.x, sd.y);
 	if(sd.x != sd.y){
-		int s = glm::min(sd.x, sd.y);
 		glfwSetWindowSize(sweet::currentContext, s, s);
+		
+	}
+	if(s != lastSize){
 		resized = true;
+		lastSize = s;
 	}
 	Game::update(_step);
 	resized = false;
