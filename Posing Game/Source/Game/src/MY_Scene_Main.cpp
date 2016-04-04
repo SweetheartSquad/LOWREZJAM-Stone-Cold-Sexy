@@ -128,7 +128,7 @@ void MY_Scene_Main::update(Step * _step){
 		confidence -= 0.1f;
 		// just started posing
 		if(mouse->leftJustPressed()){
-			poser->background->mesh->replaceTextures(MY_ResourceManager::globalAssets->getTexture("poser-posing_" + std::to_string(sweet::NumberUtils::randomInt(1,2)))->texture);
+			poser->background->mesh->replaceTextures(MY_ResourceManager::globalAssets->getTexture("poser-posing_" + std::to_string(sweet::NumberUtils::randomInt(1,3)))->texture);
 		}
 	}else{
 		confidence -= 0.01f;
