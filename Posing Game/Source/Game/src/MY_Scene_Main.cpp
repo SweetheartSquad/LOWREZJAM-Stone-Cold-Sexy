@@ -92,6 +92,7 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	poseNode->setRationalHeight(1.f, uiLayer);
 	poseNode->setRationalWidth(1.f, uiLayer);
 	poseNode->background->mesh->setScaleMode(GL_NEAREST);
+	poseNode->setBackgroundColour(1,1,1, 0);
 	poseTimeout = new Timeout(0.5, [this, poseNode](sweet::Event * _event){
 		poseNode->setBackgroundColour(1,1,1,0);
 	});
@@ -102,7 +103,6 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 		poseNode->setBackgroundColour(1,1,1,1);
 		poseNode->background->mesh->replaceTextures(MY_ResourceManager::globalAssets->getTexture("uiPose_" + std::to_string(sweet::NumberUtils::randomInt(1,NUM_POSE_UIS)))->texture);
 	});
-	poseTimeout->start();
 	poseTimeout->name = "pose timeout";
 	childTransform->addChild(poseTimeout, false);
 
@@ -125,6 +125,7 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 		peepTimeout->restart();
 		addPeep();
 	});
+	peepTimeout->trigger();
 	peepTimeout->start();
 	childTransform->addChild(peepTimeout, false);
 	peepTimeout->name = "peep timeout";
@@ -195,15 +196,14 @@ void MY_Scene_Main::update(Step * _step){
 
 
 	if(ready){
-		if(mouse->leftJustPressed()){
+		if(mouse->leftJustPressed() || keyboard->keyJustDown(GLFW_KEY_SPACE)){
 			// just started posing
-			poseTimeout->restart();
 			poser->background->mesh->replaceTextures(MY_ResourceManager::globalAssets->getTexture("poser-posing_" + std::to_string(sweet::NumberUtils::randomInt(1,NUM_POSES)))->texture);
 			MY_ResourceManager::globalAssets->getAudio("in")->sound->setGain(0.5f);
 			MY_ResourceManager::globalAssets->getAudio("in")->sound->play();
 			redout = 1;
 			posing = true;
-		}else if(mouse->leftJustReleased()){
+		}else if(mouse->leftJustReleased() || keyboard->keyJustUp(GLFW_KEY_SPACE)){
 			// just finished posing
 			poser->background->mesh->replaceTextures(MY_ResourceManager::globalAssets->getTexture("poser")->texture);
 			MY_ResourceManager::globalAssets->getAudio("out")->sound->setGain(0.5f);
@@ -246,6 +246,10 @@ void MY_Scene_Main::update(Step * _step){
 				confidence += 10;
 				score += 10;
 				p->scoreTimeout->restart();
+				poseTimeout->restart();
+				MY_ResourceManager::globalAssets->getAudio("flash")->sound->play();
+			}else{
+				MY_ResourceManager::globalAssets->getAudio("flash-wrong")->sound->play();
 			}
 		}
 

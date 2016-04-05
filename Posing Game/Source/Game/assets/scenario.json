@@ -209,6 +209,13 @@
       "category":"sfx"
     },{
       "type":"audio",
+      "id": "flash-wrong",
+      "src":"flash-wrong.wav",
+      "stream":false,
+      "positional":false,
+      "category":"sfx"
+    },{
+      "type":"audio",
       "id": "in",
       "src":"in.wav",
       "stream":false,

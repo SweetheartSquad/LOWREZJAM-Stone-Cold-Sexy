@@ -92,6 +92,5 @@ void Peep::update(Step * _step){
 }
 
 void Peep::takePicture(){
-	MY_ResourceManager::globalAssets->getAudio("flash")->sound->play();
 	wantsTakePicture = false;
 }
