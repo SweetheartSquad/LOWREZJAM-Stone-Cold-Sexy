@@ -123,6 +123,9 @@ MY_Scene_Main::~MY_Scene_Main(){
 
 
 void MY_Scene_Main::update(Step * _step){
+	float g = MY_ResourceManager::globalAssets->getAudio("BGM2")->sound->getGain(false) + (posing ? 0.05f : -0.05f);
+	MY_ResourceManager::globalAssets->getAudio("BGM2")->sound->setGain(glm::clamp(g, 0.25f, 1.f));
+
 	uiLayer->resize(0, 64, 0, 64);
 	// Screen shader update
 	// Screen shaders are typically loaded from a file instead of built using components, so to update their uniforms

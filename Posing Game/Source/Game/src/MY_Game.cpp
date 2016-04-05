@@ -13,8 +13,10 @@ MY_Game::MY_Game() :
 {
 	sweet::setCursorMode(GLFW_CURSOR_NORMAL);
 	
-	MY_ResourceManager::globalAssets->getAudio("BGM")->sound->play(true);
-	MY_ResourceManager::globalAssets->getAudio("BGM")->sound->setGain(0);
+	MY_ResourceManager::globalAssets->getAudio("BGM1")->sound->play(true);
+	MY_ResourceManager::globalAssets->getAudio("BGM1")->sound->setGain(0);
+	MY_ResourceManager::globalAssets->getAudio("BGM2")->sound->play(true);
+	MY_ResourceManager::globalAssets->getAudio("BGM2")->sound->setGain(0);
 }
 
 MY_Game::~MY_Game(){}
@@ -28,11 +30,15 @@ void MY_Game::addSplashes(){
 }
 
 void MY_Game::update(Step * _step){
-	MY_ResourceManager::globalAssets->getAudio("BGM")->sound->update(_step);
+	MY_ResourceManager::globalAssets->getAudio("BGM1")->sound->update(_step);
+	MY_ResourceManager::globalAssets->getAudio("BGM2")->sound->update(_step);
 
-	float g = MY_ResourceManager::globalAssets->getAudio("BGM")->sound->getGain(false);
+	float g = MY_ResourceManager::globalAssets->getAudio("BGM1")->sound->getGain(false) + 0.01f;
 	if(g < 1.f){
-		MY_ResourceManager::globalAssets->getAudio("BGM")->sound->setGain(glm::min(g + 0.001f, 1.f));
+		MY_ResourceManager::globalAssets->getAudio("BGM1")->sound->setGain(glm::min(g, 1.f));
+	}g = MY_ResourceManager::globalAssets->getAudio("BGM2")->sound->getGain(false) + 0.01f;
+	if(g < 0.25f){
+		MY_ResourceManager::globalAssets->getAudio("BGM2")->sound->setGain(glm::min(g, 0.25f));
 	}
 
 	glm::uvec2 sd = sweet::getWindowDimensions();

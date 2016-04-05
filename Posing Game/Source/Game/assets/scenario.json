@@ -133,8 +133,15 @@
 
   	,{
       "type":"audio",
-      "id": "BGM",
-      "src":"wee-oo-ee-oo.ogg",
+      "id": "BGM1",
+      "src":"song1.wav",
+      "stream":true,
+      "positional":false,
+      "category":"music"
+    },{
+      "type":"audio",
+      "id": "BGM2",
+      "src":"song2.wav",
       "stream":true,
       "positional":false,
       "category":"music"
