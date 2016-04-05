@@ -234,6 +234,7 @@ void MY_Scene_Main::update(Step * _step){
 		Peep * p = peeps.at(i);
 		if(p->walk){
 			p->marginLeft.rationalSize += 1/64.f;
+			p->marginBottom.rationalSize = sweet::NumberUtils::randomInt(-4, 0)/64.f;
 			p->autoResize();
 			p->walk = false;
 		}
@@ -335,7 +336,7 @@ void MY_Scene_Main::addPeep(){
 	peep->setRationalWidth(64/64.f, uiLayer);
 	
 	peep->marginLeft.setRationalSize(-64/64.f, &fg->width);
-	peep->marginBottom.setRationalSize(sweet::NumberUtils::randomInt(-12, 0)/64.f, &fg->height);
+	peep->marginBottom.setRationalSize(sweet::NumberUtils::randomInt(-4, 0)/64.f, &fg->height);
 
 	peeps.push_back(peep);
 }
