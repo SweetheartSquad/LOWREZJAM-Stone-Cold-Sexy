@@ -20,9 +20,8 @@ MY_Scene_Menu::MY_Scene_Menu(Game * _game) :
 	vl->addChild(menu);
 	menu->setRationalHeight(1.f, vl);
 	menu->setSquareWidth(1.f);
-	menu->background->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("CLOUDS")->texture);
+	menu->background->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("MENU")->texture);
 	menu->background->mesh->setScaleMode(GL_NEAREST);
-	clouds = menu->background->mesh;
 	}
 	{
 	VerticalLinearLayout * vl = new VerticalLinearLayout(uiLayer->world);
@@ -35,7 +34,7 @@ MY_Scene_Menu::MY_Scene_Menu(Game * _game) :
 	vl->addChild(menu);
 	menu->setRationalHeight(1.f, vl);
 	menu->setSquareWidth(1.f);
-	menu->background->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("MENU")->texture);
+	menu->background->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("CLICK")->texture);
 	menu->background->mesh->setScaleMode(GL_NEAREST);
 	}
 
@@ -49,19 +48,12 @@ MY_Scene_Menu::MY_Scene_Menu(Game * _game) :
 
 void MY_Scene_Menu::update(Step * _step){
 	if(ready){
-		if(mouse->leftJustPressed()){
+		if(mouse->leftJustPressed() || keyboard->keyJustDown(GLFW_KEY_SPACE)){
 			if(game->scenes.count("main") == 0){
 				game->scenes["main"] = new MY_Scene_Main(game);
 			}
 			game->switchScene("main", false);
 		}
-	}
-
-	if(_step->cycles % 30 == 0){
-		for(auto & v : clouds->vertices){
-			v.u += 1/64.f;
-		}
-		clouds->dirty = true;
 	}
 
 	MY_Scene_Base::update(_step);
