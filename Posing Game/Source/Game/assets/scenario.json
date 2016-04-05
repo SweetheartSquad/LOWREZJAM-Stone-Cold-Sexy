@@ -119,16 +119,6 @@
       "id": "ENDING_5",
       "src": "end5.png",
       "generateMipmaps": false
-    },{
-      "type": "texture",
-      "id": "SLIDERTRACK",
-      "src": "slidertrack.png",
-      "generateMipmaps": false
-    },{
-      "type": "texture",
-      "id": "SLIDER",
-      "src": "slider.png",
-      "generateMipmaps": false
     }
 
   	,{
