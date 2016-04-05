@@ -12,11 +12,11 @@ GameOver::GameOver(Game * _game, float _score) :
 {
 	std::string pic = "ENDING_";
 
-	if(_score > 500){
+	if(_score > 300){
 		pic += "5";
-	}else if(_score > 250){
+	}else if(_score > 200){
 		pic += "4";
-	}else if(_score > 100){
+	}else if(_score > 125){
 		pic += "3";
 	}else if(_score > 50){
 		pic += "2";
