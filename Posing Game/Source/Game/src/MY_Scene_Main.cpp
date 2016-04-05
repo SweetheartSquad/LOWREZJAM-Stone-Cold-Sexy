@@ -175,12 +175,18 @@ void MY_Scene_Main::update(Step * _step){
 		// just started posing
 		if(mouse->leftJustPressed()){
 			poser->background->mesh->replaceTextures(MY_ResourceManager::globalAssets->getTexture("poser-posing_" + std::to_string(sweet::NumberUtils::randomInt(1,3)))->texture);
+			MY_ResourceManager::globalAssets->getAudio("in")->sound->setGain(0.5f);
+			MY_ResourceManager::globalAssets->getAudio("in")->sound->play();
+			redout = 1;
 		}
 	}else{
 		confidence -= 0.01f + (score/5000);
 		// just finished posing
 		if(mouse->leftJustReleased()){
 			poser->background->mesh->replaceTextures(MY_ResourceManager::globalAssets->getTexture("poser")->texture);
+			MY_ResourceManager::globalAssets->getAudio("out")->sound->setGain(0.5f);
+			MY_ResourceManager::globalAssets->getAudio("out")->sound->play();
+			redout = 1;
 		}
 	}
 

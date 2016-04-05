@@ -152,6 +152,20 @@
       "stream":false,
       "positional":false,
       "category":"sfx"
+    },{
+      "type":"audio",
+      "id": "in",
+      "src":"in.wav",
+      "stream":false,
+      "positional":false,
+      "category":"sfx"
+    },{
+      "type":"audio",
+      "id": "out",
+      "src":"out.wav",
+      "stream":false,
+      "positional":false,
+      "category":"sfx"
     }
   ]
 }
