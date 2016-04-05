@@ -5,6 +5,7 @@
 
 #include <Timeout.h>
 #include <NumberUtils.h>
+#include <Easing.h>
 
 Peep::Peep(BulletWorld * _world) :
 	NodeUI(_world),
@@ -77,7 +78,7 @@ Peep::Peep(BulletWorld * _world) :
 	scoreTimeout->eventManager->addEventListener("progress", [this](sweet::Event * _event){
 		plusOne->marginBottom.rationalSize += 0.1f/64.f;
 		plusOne->autoResize();
-		plusOne->setBackgroundColour(1,1,1, 1.f - _event->getFloatData("progress"));
+		plusOne->setBackgroundColour(1,1,1, Easing::easeInCirc(_event->getFloatData("progress"), 1, -1, 1));
 	});
 	scoreTimeout->eventManager->addEventListener("start", [this](sweet::Event * _event){
 		plusOne->marginBottom.rationalSize = 0;

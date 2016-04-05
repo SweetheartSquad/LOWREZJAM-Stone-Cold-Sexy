@@ -19,6 +19,7 @@
 #include <NumberUtils.h>
 #include <MY_Game.h>
 #include <GameOver.h>
+#include <Easing.h>
 
 MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	MY_Scene_Base(_game),
@@ -95,7 +96,7 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 		poseNode->setBackgroundColour(1,1,1,0);
 	});
 	poseTimeout->eventManager->addEventListener("progress", [this, poseNode](sweet::Event * _event){
-		poseNode->setBackgroundColour(1,1,1,1.f - _event->getFloatData("progress"));
+		poseNode->setBackgroundColour(1,1,1, Easing::easeInCirc(_event->getFloatData("progress"), 1, -1, 1));
 	});
 	poseTimeout->eventManager->addEventListener("start", [this, poseNode](sweet::Event * _event){
 		poseNode->setBackgroundColour(1,1,1,1);

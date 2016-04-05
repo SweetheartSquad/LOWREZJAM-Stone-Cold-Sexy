@@ -82,6 +82,71 @@
       "id": "plus",
       "src": "plus.png",
       "generateMipmaps": false
+    },{
+      "type": "texture",
+      "id": "uiPose_1",
+      "src": "uiPose_1.png",
+      "generateMipmaps": false
+    },{
+      "type": "texture",
+      "id": "uiPose_2",
+      "src": "uiPose_2.png",
+      "generateMipmaps": false
+    },{
+      "type": "texture",
+      "id": "uiPose_3",
+      "src": "uiPose_3.png",
+      "generateMipmaps": false
+    },{
+      "type": "texture",
+      "id": "uiPose_4",
+      "src": "uiPose_4.png",
+      "generateMipmaps": false
+    },{
+      "type": "texture",
+      "id": "uiPose_5",
+      "src": "uiPose_5.png",
+      "generateMipmaps": false
+    },{
+      "type": "texture",
+      "id": "uiPose_6",
+      "src": "uiPose_6.png",
+      "generateMipmaps": false
+    },{
+      "type": "texture",
+      "id": "uiPose_7",
+      "src": "uiPose_7.png",
+      "generateMipmaps": false
+    },{
+      "type": "texture",
+      "id": "uiPose_8",
+      "src": "uiPose_8.png",
+      "generateMipmaps": false
+    },{
+      "type": "texture",
+      "id": "uiPose_9",
+      "src": "uiPose_9.png",
+      "generateMipmaps": false
+    },{
+      "type": "texture",
+      "id": "uiPose_10",
+      "src": "uiPose_10.png",
+      "generateMipmaps": false
+    },{
+      "type": "texture",
+      "id": "uiPose_11",
+      "src": "uiPose_11.png",
+      "generateMipmaps": false
+    },{
+      "type": "texture",
+      "id": "uiPose_12",
+      "src": "uiPose_12.png",
+      "generateMipmaps": false
+    },{
+      "type": "texture",
+      "id": "uiPose_13",
+      "src": "uiPose_13.png",
+      "generateMipmaps": false
     }
 
     ,{

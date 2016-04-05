@@ -10,7 +10,7 @@ class Peep;
 class TextLabelControlled;
 
 #define NUM_POSES 3
-#define NUM_POSE_UIS 1
+#define NUM_POSE_UIS 13
 
 class MY_Scene_Main : public MY_Scene_Base{
 public:
