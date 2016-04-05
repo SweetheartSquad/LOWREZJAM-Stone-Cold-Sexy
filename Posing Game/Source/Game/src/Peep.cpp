@@ -17,28 +17,27 @@ Peep::Peep(BulletWorld * _world) :
 	background->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("peep")->texture);
 	
 	picTexTimeout = new Timeout(0.5f, [this](sweet::Event * _event){
-		background->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("peep")->texture);
+		background->mesh->replaceTextures(MY_ResourceManager::globalAssets->getTexture("peep")->texture);
 	});
 	childTransform->addChild(picTexTimeout, false);
 
 	picTimeout1 = new Timeout(sweet::NumberUtils::randomFloat(3.5f, 10.f), [this](sweet::Event * _event){
 		if(marginLeft.rationalSize > -0.5 && marginLeft.rationalSize < 0.5f){
-			background->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("peep-ready")->texture);
+			background->mesh->replaceTextures(MY_ResourceManager::globalAssets->getTexture("peep-ready")->texture);
+			picTimeout2->restart();
+		}else{
+			picTimeout1->restart();
 		}
-		picTimeout2->restart();
 	});
 	picTimeout1->start();
 	childTransform->addChild(picTimeout1, false);
 
 	picTimeout2 = new Timeout(0.45f, [this](sweet::Event * _event){
-		if(marginLeft.rationalSize > -0.5 && marginLeft.rationalSize < 0.5f){
-			background->mesh->pushTexture2D(MY_ResourceManager::globalAssets->getTexture("peep-flash")->texture);
-			wantsTakePicture = true;
-		}
+		background->mesh->replaceTextures(MY_ResourceManager::globalAssets->getTexture("peep-flash")->texture);
+		wantsTakePicture = true;
 		picTimeout1->restart();
 		picTexTimeout->restart();
 	});
-	picTimeout2->start();
 	childTransform->addChild(picTimeout2, false);
 
 	walkTimeout = new Timeout(sweet::NumberUtils::randomFloat(0.1, 0.25f), [this](sweet::Event * _event){
