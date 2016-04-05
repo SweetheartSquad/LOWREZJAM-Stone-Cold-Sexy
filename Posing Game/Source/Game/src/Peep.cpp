@@ -20,6 +20,7 @@ Peep::Peep(BulletWorld * _world) :
 		background->mesh->replaceTextures(MY_ResourceManager::globalAssets->getTexture("peep")->texture);
 	});
 	childTransform->addChild(picTexTimeout, false);
+	picTexTimeout->name = "pic tex timeout";
 
 	picTimeout1 = new Timeout(sweet::NumberUtils::randomFloat(3.5f, 10.f), [this](sweet::Event * _event){
 		if(marginLeft.rationalSize > -0.5 && marginLeft.rationalSize < 0.5f){
@@ -31,6 +32,7 @@ Peep::Peep(BulletWorld * _world) :
 	});
 	picTimeout1->start();
 	childTransform->addChild(picTimeout1, false);
+	picTimeout1->name = "pic 1 timeout";
 
 	picTimeout2 = new Timeout(0.45f, [this](sweet::Event * _event){
 		background->mesh->replaceTextures(MY_ResourceManager::globalAssets->getTexture("peep-flash")->texture);
@@ -39,6 +41,7 @@ Peep::Peep(BulletWorld * _world) :
 		picTexTimeout->restart();
 	});
 	childTransform->addChild(picTimeout2, false);
+	picTimeout2->name = "pic 2 timeout";
 
 	walkTimeout = new Timeout(sweet::NumberUtils::randomFloat(0.1, 0.25f), [this](sweet::Event * _event){
 		walkTimeout->restart();
@@ -46,13 +49,15 @@ Peep::Peep(BulletWorld * _world) :
 	});
 	walkTimeout->start();
 	childTransform->addChild(walkTimeout, false);
+	walkTimeout->name = "walk timeout";
 
 	speedTimeout = new Timeout(sweet::NumberUtils::randomFloat(0.5, 2.5f), [this](sweet::Event * _event){
 		speedTimeout->restart();
 		walkTimeout->targetSeconds = sweet::NumberUtils::randomFloat(0.1, 0.25f);
 	});
-	walkTimeout->start();
-	childTransform->addChild(walkTimeout, false);
+	speedTimeout->start();
+	childTransform->addChild(speedTimeout, false);
+	speedTimeout->name = "speed timeout";
 
 
 	// score

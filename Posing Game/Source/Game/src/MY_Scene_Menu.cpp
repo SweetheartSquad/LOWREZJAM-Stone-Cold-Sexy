@@ -44,6 +44,7 @@ MY_Scene_Menu::MY_Scene_Menu(Game * _game) :
 	});
 	childTransform->addChild(readyTimeout, false);
 	readyTimeout->start();
+	readyTimeout->name = "ready timeout";
 }
 
 void MY_Scene_Menu::update(Step * _step){

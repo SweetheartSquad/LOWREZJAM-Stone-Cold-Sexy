@@ -50,6 +50,7 @@ GameOver::GameOver(Game * _game, float _score) :
 		n->background->mesh->setScaleMode(GL_NEAREST);
 	});
 	doneTimeout->start();
+	doneTimeout->name = "done timeout";
 	childTransform->addChild(doneTimeout, false);
 }
 

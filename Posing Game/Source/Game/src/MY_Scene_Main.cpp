@@ -106,6 +106,7 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	});
 	peepTimeout->start();
 	childTransform->addChild(peepTimeout, false);
+	peepTimeout->name = "peep timeout";
 
 	scoreLabel = new TextLabelControlled(&score, 0.f, FLT_MAX, uiLayer->world, MY_ResourceManager::globalAssets->getFont("font")->font, textShader);
 	uiLayer->addChild(scoreLabel);
