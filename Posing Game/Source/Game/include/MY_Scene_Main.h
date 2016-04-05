@@ -28,6 +28,7 @@ public:
 	bool posing;
 	float score;
 	float whiteout;
+	float redout;
 	bool ready;
 
 	virtual void update(Step * _step) override;

@@ -28,6 +28,7 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	confidence(100),
 	score(0),
 	whiteout(0),
+	redout(0),
 	ready(false),
 	posing(false)
 {
@@ -35,8 +36,9 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	screenSurface->incrementReferenceCount();
 	screenSurfaceShader->incrementReferenceCount();
 	screenFBO->incrementReferenceCount();
-
+	
 	screenSurface->setScaleMode(GL_NEAREST);
+	screenSurface->uvEdgeMode = GL_CLAMP_TO_BORDER;
 
 	// game
 	bg = new NodeUI(uiLayer->world);
@@ -141,6 +143,11 @@ void MY_Scene_Main::update(Step * _step){
 	if(test != -1){
 		glUniform1f(test, whiteout);
 		checkForGlError(0);
+	}test = glGetUniformLocation(screenSurfaceShader->getProgramId(), "redout");
+	checkForGlError(0);
+	if(test != -1){
+		glUniform1f(test, redout);
+		checkForGlError(0);
 	}
 
 
@@ -194,6 +201,11 @@ void MY_Scene_Main::update(Step * _step){
 	if(keyboard->keyJustDown(GLFW_KEY_P)){
 		addPeep();
 	}
+	if(keyboard->keyJustDown(GLFW_KEY_L)){
+		screenSurfaceShader->unload();
+		screenSurfaceShader->loadFromFile(screenSurfaceShader->vertSource, screenSurfaceShader->fragSource);
+		screenSurfaceShader->load();
+	}
 	
 	for(signed long int i = peeps.size()-1; i >= 0; --i){
 		Peep * p = peeps.at(i);
@@ -224,6 +236,12 @@ void MY_Scene_Main::update(Step * _step){
 	}
 
 	whiteout += -whiteout*0.5f;
+	redout += -redout*0.5f;
+	if(whiteout < FLT_EPSILON){
+		whiteout = 0;
+	}if(redout < FLT_EPSILON){
+		redout = 0;
+	}
 
 	// lose state
 	if(confidence <= FLT_EPSILON){
