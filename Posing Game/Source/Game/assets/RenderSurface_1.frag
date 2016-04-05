@@ -27,28 +27,30 @@ void main() {
 	vec2 p = r;
 	
 	// distort uvs
-	//r = vec2(rand(r.x, time), rand(r.y, time));
-	r.x += abs(0.5 - r.x) * 0.5;
-	r.y += abs(0.5 - r.y) * 0.5;
+	r.x += (0.5 - r.x) * 0.25;
+	r.y += (0.5 - r.y) * 0.25;
 
-	r.x += (p.x - r.x) * (1-redout+whiteout);
-	r.y += (p.y - r.y) * (1-redout+whiteout);
+	r.x += (p.x - r.x) * (1.f-redout+whiteout);
+	r.y += (p.y - r.y) * (1.f-redout+whiteout);
 
 	// original
 	vec4 orig = vec4(texture(texFramebuffer, Texcoord) );
 
 	// new
 	vec4 col = vec4(texture(texFramebuffer, r) );
-    col.r += (1 - outColor.r)*(redout);
+    col.r += (1 - orig.r)*(redout+(whiteout*3));
     col.rgb += vec3(whiteout);
 	
 	// combined
-	float mixAmount = max(0., 0.5 - distance(p, vec2(0.5, 0.65))) * (col.g < col.r ? 2 : -1);
+	float centerD = distance(p, vec2(0.5, 0.65));
+	float mixAmount = max(0., 0.5 - centerD);
 	mixAmount += whiteout;
 
 	outColor = mix(orig, col, mixAmount);
-	outColor = max(orig, outColor);
-	
-
-    //outColor = mix(outColor, vec4(1), whiteout);
+	vec4 t = outColor;
+	if(centerD < 0.4){
+		outColor *= max(orig, col);
+		outColor /= min(orig, col);
+		outColor = mix(t, outColor, max(0, 0.4 - centerD));
+	}
 }

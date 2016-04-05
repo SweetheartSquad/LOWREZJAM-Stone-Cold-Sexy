@@ -235,11 +235,11 @@ void MY_Scene_Main::update(Step * _step){
 		}
 	}
 
-	whiteout += -whiteout*0.5f;
-	redout += -redout*0.5f;
-	if(whiteout < FLT_EPSILON){
+	whiteout += -whiteout*0.25f;
+	redout += -redout*0.25f;
+	if(glm::abs(whiteout) < 0.1){
 		whiteout = 0;
-	}if(redout < FLT_EPSILON){
+	}if(glm::abs(redout) < 0.1){
 		redout = 0;
 	}
 
