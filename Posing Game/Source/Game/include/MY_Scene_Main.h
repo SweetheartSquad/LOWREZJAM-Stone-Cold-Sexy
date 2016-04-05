@@ -9,12 +9,15 @@ class ShaderComponentHsv;
 class Peep;
 class TextLabelControlled;
 
+#define NUM_POSES 3
+#define NUM_POSE_UIS 1
+
 class MY_Scene_Main : public MY_Scene_Base{
 public:
 	Shader * screenSurfaceShader;
 	RenderSurface * screenSurface;
 	StandardFrameBuffer * screenFBO;
-	Timeout * peepTimeout;
+	Timeout * peepTimeout, * poseTimeout;
 
 	TextLabelControlled * scoreLabel;
 	NodeUI * poser;

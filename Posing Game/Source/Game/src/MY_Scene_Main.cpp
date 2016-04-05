@@ -85,6 +85,26 @@ MY_Scene_Main::MY_Scene_Main(Game * _game) :
 	}
 
 	// ui
+
+	NodeUI * poseNode = new NodeUI(uiLayer->world);
+	uiLayer->addChild(poseNode);
+	poseNode->setRationalHeight(1.f, uiLayer);
+	poseNode->setRationalWidth(1.f, uiLayer);
+	poseNode->background->mesh->setScaleMode(GL_NEAREST);
+	poseTimeout = new Timeout(0.5, [this, poseNode](sweet::Event * _event){
+		poseNode->setBackgroundColour(1,1,1,0);
+	});
+	poseTimeout->eventManager->addEventListener("progress", [this, poseNode](sweet::Event * _event){
+		poseNode->setBackgroundColour(1,1,1,1.f - _event->getFloatData("progress"));
+	});
+	poseTimeout->eventManager->addEventListener("start", [this, poseNode](sweet::Event * _event){
+		poseNode->setBackgroundColour(1,1,1,1);
+		poseNode->background->mesh->replaceTextures(MY_ResourceManager::globalAssets->getTexture("uiPose_" + std::to_string(sweet::NumberUtils::randomInt(1,NUM_POSE_UIS)))->texture);
+	});
+	poseTimeout->start();
+	poseTimeout->name = "pose timeout";
+	childTransform->addChild(poseTimeout, false);
+
 	SliderControlled * confidenceSlider = new SliderControlled(uiLayer->world, &confidence, 0, 100, false);
 	uiLayer->addChild(confidenceSlider, false);
 	confidenceSlider->setRationalHeight(60/64.f, uiLayer);
@@ -176,7 +196,8 @@ void MY_Scene_Main::update(Step * _step){
 	if(ready){
 		if(mouse->leftJustPressed()){
 			// just started posing
-			poser->background->mesh->replaceTextures(MY_ResourceManager::globalAssets->getTexture("poser-posing_" + std::to_string(sweet::NumberUtils::randomInt(1,3)))->texture);
+			poseTimeout->restart();
+			poser->background->mesh->replaceTextures(MY_ResourceManager::globalAssets->getTexture("poser-posing_" + std::to_string(sweet::NumberUtils::randomInt(1,NUM_POSES)))->texture);
 			MY_ResourceManager::globalAssets->getAudio("in")->sound->setGain(0.5f);
 			MY_ResourceManager::globalAssets->getAudio("in")->sound->play();
 			redout = 1;
